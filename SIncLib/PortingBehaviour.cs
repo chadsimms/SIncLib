@@ -203,7 +203,7 @@ namespace SIncLib
                     return false;
                 }
 
-                if (p.OSs.Contains(targetProd) || !SoftwareType.OSDependenciesMet(targetProd, p.Features))
+                if (p.OldOSs.Contains(targetProd) || !SoftwareType.OSDependenciesMet(targetProd, p.Features))
                 {
                     //Console.Log("2 Filtering out " + targetProd.Name);
                     return false;
@@ -292,7 +292,12 @@ namespace SIncLib
             else
             {
                 // add the job to the team
-                portingJob.AddDevTeam(team);
+                foreach (string teamName in PortingTeams)
+                {
+                    Team t = GameSettings.GetTeam(teamName);
+                    if (t != null)
+                        portingJob.AddDevTeam(t);
+                }
             }
             nextJob.IsPaused = false;
             nextJob.WorkItem = portingJob;
